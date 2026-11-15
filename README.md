@@ -8,6 +8,8 @@ Pocket Agent 是一个跑在你自己电脑上的小网页。手机打开，选�
 
 <p align="center"><img src="docs/demo.gif" width="320" alt="演示：在手机上从一句想法做到上线"></p>
 
+<p align="center">完整演示视频（72 秒）：<a href="https://github.com/RockyTata/pocket-agent/releases/tag/v0.1.0">在 v0.1.0 发布页下载</a>（有中文版和英文版）</p>
+
 <p>
   <img src="docs/list-dark.png" width="19%" alt="对话列表">
   <img src="docs/running.png" width="19%" alt="实时进度">
