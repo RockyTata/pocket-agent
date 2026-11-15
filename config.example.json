@@ -1,0 +1,13 @@
+{
+  "roots": ["~/projects"],
+  "host": "0.0.0.0",
+  "port": 8765,
+  "machine_name": "",
+  "claude_bin": "",
+  "codex_bin": "",
+  "codex_model": "",
+  "codex_effort": "medium",
+  "codex_models": [],
+  "codex_cheap_model": "",
+  "system_prompt": ""
+}

@@ -1,0 +1,7 @@
+# 对话记录、口令、上传的附件，都是每个人自己的
+data/
+# 个人配置（路径、模型），模板见 config.example.json
+config.json
+__pycache__/
+*.pyc
+.DS_Store
