@@ -107,3 +107,7 @@ Linux 用 `systemd --user`，`ExecStart=/usr/bin/python3 /path/to/pocket-agent/s
 ## 许可
 
 [MIT](LICENSE)
+
+## 作者
+
+[rocky233.vip](https://rocky233.vip)
