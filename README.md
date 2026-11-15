@@ -6,6 +6,8 @@
 
 Pocket Agent 是一个跑在你自己电脑上的小网页。手机打开，选个项目，写一句要干什么，手机揣回兜里就行。AI 在你的电脑上用你的文件和工具干活；你在手机上能看到实时进度、最后的回复、它截的图，需要你拍板时直接点按钮。
 
+<p align="center"><img src="docs/demo.gif" width="320" alt="演示：在手机上从一句想法做到上线"></p>
+
 <p>
   <img src="docs/list-dark.png" width="19%" alt="对话列表">
   <img src="docs/running.png" width="19%" alt="实时进度">

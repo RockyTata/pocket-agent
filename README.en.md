@@ -6,6 +6,8 @@
 
 Pocket Agent is a tiny web app that runs on your own computer. Open it on your phone, pick a project, type a task, put the phone back in your pocket. The AI works on your machine with your files and tools; you get live progress, the final reply, screenshots it took, and one-tap buttons when it needs a decision.
 
+<p align="center"><img src="docs/demo.gif" width="320" alt="Demo: from an idea to a deployed page, all on the phone"></p>
+
 <p>
   <img src="docs/list-dark.png" width="19%" alt="Task list">
   <img src="docs/running.png" width="19%" alt="Live progress">
