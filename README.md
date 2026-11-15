@@ -1,54 +1,52 @@
 # Pocket Agent
 
-**Hand off coding tasks to Claude Code / Codex on your computer — from your phone.**
+**在手机上给电脑里的 Claude Code / Codex 派活。**
 
-[中文说明](README.zh-CN.md)
+[English](README.en.md)
 
-Pocket Agent is a tiny web app that runs on your own computer. Open it on your phone, pick a project, type a task, put the phone back in your pocket. The AI works on your machine with your files and tools; you get live progress, the final reply, screenshots it took, and one-tap buttons when it needs a decision.
+Pocket Agent 是一个跑在你自己电脑上的小网页。手机打开，选个项目，写一句要干什么，手机揣回兜里就行。AI 在你的电脑上用你的文件和工具干活；你在手机上能看到实时进度、最后的回复、它截的图，需要你拍板时直接点按钮。
 
 <p>
-  <img src="docs/list-dark.png" width="19%" alt="Task list">
-  <img src="docs/running.png" width="19%" alt="Live progress">
-  <img src="docs/choose.png" width="19%" alt="Tap to choose">
-  <img src="docs/reply-image.png" width="19%" alt="Reply with screenshot">
-  <img src="docs/list-light.png" width="19%" alt="Light theme">
+  <img src="docs/list-dark.png" width="19%" alt="对话列表">
+  <img src="docs/running.png" width="19%" alt="实时进度">
+  <img src="docs/choose.png" width="19%" alt="点按钮做选择">
+  <img src="docs/reply-image.png" width="19%" alt="回复里带截图">
+  <img src="docs/list-light.png" width="19%" alt="白天模式">
 </p>
 
-- **Zero dependencies.** One Python file for the server, one HTML file for the UI. No npm, no pip, no database — conversations are JSON files in `data/`.
-- **Uses the CLIs you already have.** It runs `claude -p` / `codex exec` under the hood, with your existing login and subscription. No API keys.
-- **Built for the phone.** Live step-by-step progress, queue or interrupt with a follow-up while it's working, stop button, pull to refresh, dark/light theme, installable to the home screen.
-- **Tap instead of type.** The AI is prompted to ask questions as ` ```choose ` blocks, which render as buttons.
-- **Sees what the AI sees.** Image/video paths in replies (inside your project roots) are shown inline; attach photos from your phone.
-- **Picks up desktop sessions.** Continue a Claude Code or Codex session you started in the terminal.
-- **Quota at a glance.** 5-hour and weekly usage for both Claude and Codex, as reported by the tools themselves.
+- **零依赖。** 服务端一个 Python 文件，界面一个 HTML 文件。不用 npm、不用 pip、不用数据库，对话存成 `data/` 里的 JSON。
+- **直接用你装好的命令行。** 底下跑的是 `claude -p` / `codex exec`，用你现有的登录和订阅，不需要 API Key。
+- **为手机设计。** 一步步的实时进度；干活时可以补一句（排队）或者插话（打断）；随时停下；下拉刷新；夜间/白天；能加到主屏幕。
+- **点，不用打字。** 提示词让 AI 用 ` ```choose ` 代码块提问，手机上显示成按钮。
+- **它看到的你也看得到。** 回复里提到的图片/视频（在项目目录里的）直接显示；也能从手机传照片给它。
+- **接着电脑上的对话聊。** 在终端里开的 Claude Code / Codex 会话，可以接到手机上继续。
+- **额度一眼看清。** Claude 和 Codex 的 5 小时、本周用量，数字是两家工具自己报的。
 
-> **Note:** the UI is currently in Chinese only. The AI replies in whatever language you write to it (or set `system_prompt`). Translations welcome.
+## ⚠️ 先看这个
 
-## ⚠️ Read this first
+拿到口令的人就能**在你电脑上指挥一个有写权限的 AI**——它能改文件、跑命令（Claude 用 `--permission-mode auto`，Codex 用 `workspace-write`）。
 
-Pocket Agent lets anyone with the token **run an AI agent with write access on your computer** — it can edit files and run shell commands (Claude runs with `--permission-mode auto`, Codex with `workspace-write`).
+- 第一次启动会随机生成口令，存在 `data/token`。所有接口都要口令，别外传。
+- 默认监听**局域网**（`0.0.0.0`）。只在你信得过的网络里用，或者把 `host` 设成 `127.0.0.1`。
+- **不要直接暴露到公网。** 它是明文 HTTP，只有一个共享口令。出门在外想用，走 [Tailscale](https://tailscale.com/) 这类私有网络或 VPN，或者放在带 HTTPS 和独立登录的反向代理后面。
+- AI 只能在 `roots` 列出的目录里启动，但启动之后能做的事和命令行本身一样多。git 和备份照常留好。
 
-- A random token is generated on first start and stored in `data/token`. Every API call requires it. Don't share it.
-- By default the server listens on your **local network** (`0.0.0.0`). Only run it on networks you trust, or set `"host": "127.0.0.1"`.
-- **Do not expose it directly to the internet.** It's plain HTTP with a single shared token. For access away from home, use a private network such as [Tailscale](https://tailscale.com/) or a VPN, or put it behind a reverse proxy with HTTPS and its own authentication.
-- The AI can only be started inside the folders listed in `roots`, but once started it can do whatever the CLI allows. Keep your usual backups / git.
+## 需要什么
 
-## Requirements
+- macOS 或 Linux
+- Python 3.9 以上（macOS 自带的就行）
+- 装好并登录了 [Claude Code](https://docs.claude.com/en/docs/claude-code) 和/或 [Codex CLI](https://github.com/openai/codex)
 
-- macOS or Linux
-- Python 3.9+ (the system Python on macOS is fine)
-- [Claude Code](https://docs.claude.com/en/docs/claude-code) and/or [Codex CLI](https://github.com/openai/codex), installed and logged in
-
-## Quick start
+## 上手
 
 ```bash
-git clone https://github.com/<you>/pocket-agent.git
+git clone https://github.com/RockyTata/pocket-agent.git
 cd pocket-agent
-cp config.example.json config.json   # then edit "roots"
+cp config.example.json config.json   # 改一下 "roots"，写你放项目的目录
 python3 server.py
 ```
 
-It prints something like:
+会打印：
 
 ```
 Pocket Agent running: http://192.168.1.23:8765/
@@ -56,13 +54,13 @@ Token: 3kq8...   (new, saved in data/token)
 Project roots: /Users/you/projects
 ```
 
-Open that address on your phone (same Wi-Fi), enter the token, and tap **新对话** (New) to start.
+手机连同一个 Wi-Fi，打开这个地址，输入口令，点 **新对话**。
 
-Tip: in Safari use *Share → Add to Home Screen*; on Android Chrome use *Install app*.
+小技巧：Safari 里「分享 → 添加到主屏幕」，安卓 Chrome 里「安装应用」，用起来就像个 App。
 
-### Keep it running
+### 开机自动跑
 
-macOS (launchd) — save as `~/Library/LaunchAgents/pocket-agent.plist`, adjust paths, then `launchctl load ~/Library/LaunchAgents/pocket-agent.plist`:
+macOS 用 launchd：把下面存成 `~/Library/LaunchAgents/pocket-agent.plist`，改好路径，然后 `launchctl load ~/Library/LaunchAgents/pocket-agent.plist`。注意 `PATH` 要包含 `claude` / `codex` 所在的目录。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -73,7 +71,7 @@ macOS (launchd) — save as `~/Library/LaunchAgents/pocket-agent.plist`, adjust 
     <string>/usr/bin/python3</string><string>/path/to/pocket-agent/server.py</string>
   </array>
   <key>EnvironmentVariables</key><dict>
-    <!-- must include the folders where `claude` / `codex` live -->
+    <!-- 要包含 claude / codex 所在的目录 -->
     <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
   </dict>
   <key>RunAtLoad</key><true/>
@@ -81,37 +79,31 @@ macOS (launchd) — save as `~/Library/LaunchAgents/pocket-agent.plist`, adjust 
 </dict></plist>
 ```
 
-Linux: a `systemd --user` service with `ExecStart=/usr/bin/python3 /path/to/pocket-agent/server.py` works the same way.
+Linux 用 `systemd --user`，`ExecStart=/usr/bin/python3 /path/to/pocket-agent/server.py`。
 
-## Configuration
+## 配置
 
-All settings live in `config.json` (copy from `config.example.json`). Every key is optional.
+都在 `config.json` 里（从 `config.example.json` 复制），每一项都可以不写。
 
-| Key | Default | Meaning |
+| 项 | 默认 | 说明 |
 |---|---|---|
-| `roots` | `["~/projects"]` | Folders whose sub-folders show up as projects. The AI can only be started inside these. |
-| `host` / `port` | `0.0.0.0` / `8765` | Where the server listens. Also `--host` / `--port` on the command line. |
-| `machine_name` | hostname | Shown in the UI. |
-| `claude_bin` / `codex_bin` | found on `PATH` | Full path to the CLIs if they're not on `PATH`. |
-| `codex_model` | Codex default | Model passed to `codex exec -m`. |
-| `codex_effort` | Codex default | `model_reasoning_effort` for Codex (e.g. `medium`). |
-| `codex_models` | `[]` | Extra Codex models you can switch to from the phone. |
-| `codex_cheap_model` | — | Model used to ping Codex when you refresh the quota card. |
-| `system_prompt` | built-in (Chinese) | Replaces the instructions appended to every Claude run. Keep the ` ```choose ` format description if you want buttons. |
+| `roots` | `["~/projects"]` | 这些目录下的子文件夹会列成项目，AI 只能在这里面启动 |
+| `host` / `port` | `0.0.0.0` / `8765` | 监听地址，命令行 `--host` / `--port` 也行 |
+| `machine_name` | 主机名 | 界面上显示的电脑名 |
+| `claude_bin` / `codex_bin` | 从 `PATH` 找 | 命令不在 `PATH` 里时写完整路径 |
+| `codex_model` | Codex 默认 | 传给 `codex exec -m` 的模型 |
+| `codex_effort` | Codex 默认 | Codex 的 `model_reasoning_effort`，比如 `medium` |
+| `codex_models` | `[]` | 手机上可以切换的其他 Codex 模型 |
+| `codex_cheap_model` | — | 手动刷新额度时用来「戳一下」Codex 的便宜模型 |
+| `system_prompt` | 内置（中文） | 整段替换每次附加给 Claude 的说明。想保留按钮，就把 ` ```choose ` 格式那段留着 |
 
-## How it works
+## 原理
 
-```
-phone ──HTTP──▶ server.py ──▶ console.py ──spawns──▶ claude -p … --output-format stream-json
-                   │                                  codex exec --json …
-                   └── index.html                      (one process per task, in your project folder)
-```
+- 每个对话对应一个 Claude/Codex 会话，后续消息用 `--resume` 接上。
+- 进度来自命令行的 JSON 事件流，网页轮询拿。
+- 所有数据在 `data/` 下（`threads.json`、`msgs/`、上传的 `files/`、`token`），删掉这个目录就是全新开始。
+- `index.html` 从 jsDelivr 加载 [marked](https://github.com/markedjs/marked) 渲染 Markdown；加载不到时回复按纯文本显示。
 
-- Each conversation maps to one Claude/Codex session; follow-ups use `--resume`.
-- Progress is parsed from the CLI's JSON event stream and polled by the page.
-- Everything is stored under `data/` (`threads.json`, `msgs/`, uploaded `files/`, `token`). Delete the folder to start fresh.
-- `index.html` loads [marked](https://github.com/markedjs/marked) from jsDelivr for Markdown rendering; without it, replies show as plain text.
-
-## License
+## 许可
 
 [MIT](LICENSE)
