@@ -743,7 +743,7 @@ document.addEventListener('click', e => {
   opt[b.parentNode.dataset.k] = b.dataset.v; renderOpts();
 });
 // 顶上那行只说模型名；强度不是默认才提一句
-const optLabel = t => { if (t.agent !== 'claude') return (xnorm(t.model).model || (S && S.codex_default) || 'Codex') + (t.net ? ' · 联网' : ''); const o = norm(t);
+const optLabel = t => { if (t.agent !== 'claude') return (xnorm(t.model).model || (S && S.codex_default) || '默认') + (t.net ? ' · 联网' : ''); const o = norm(t);
   return (MODELS.find(x => x[0] === o.model) || [, o.model])[1] + (o.effort ? ' · ' + ((EFFORTS.find(x => x[0] === o.effort) || [, o.effort])[1]) : ''); };
 
 // ---------- 列表页 ----------
